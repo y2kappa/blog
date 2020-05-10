@@ -2,6 +2,7 @@ baseURL = "http://example.org/"
 languageCode = "en-us"
 title = "Beautiful Code"
 theme = "archie"
+publishDir = "docs"
 
 [params]
 	mode="dark" # color-mode → light,dark or auto
