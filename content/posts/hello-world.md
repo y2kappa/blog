@@ -1,8 +1,9 @@
 ---
 title: "Hello World"
 date: 2020-05-10T19:17:56+01:00
-draft: true
+draft: false
 tags: ["OCaml", "functional"]
+tldr: Functional programming ftw
 ---
 
 I recently listened to a podcast in which `Elizabeth Gilbert` mentioned that sometimes when she reads a well written sentence, it makes her want to stand up an clap for how well written that is.
