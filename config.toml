@@ -1,0 +1,9 @@
+baseURL = "http://example.org/"
+languageCode = "en-us"
+title = "Beautiful Code"
+theme = "archie"
+
+[params]
+	mode="dark" # color-mode → light,dark or auto
+	featherIconsCDN=true
+	subtitle = "Snippets that make you want to clap in awe"
