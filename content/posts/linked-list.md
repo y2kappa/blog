@@ -1,11 +1,24 @@
 ---
-title: "Fibofibofibo"
+title: "A less dreadful linked list"
 date: 2020-05-10T22:18:20+01:00
 draft: false
 tags: ["OCaml", "functional"]
+codelang: ocaml
+code: "type linked_list =
+
+\  	| End
+
+\  	| Node of int * linked_list
+
+
+let ll = Node (1, Node(2, Node(3, End)));;
+
+"
+summary: Let's assume the entire universe hates linked lists. But in OCaml
 ---
 
 Let's assume the entire universe hates linked lists, but somehow functional languages make them bearable. I don't mean to trash them too harshly, I did learn a lot about memory management in C++ using linked lists, but that came at a cost to my soul.
+<br><br>
 
 That being said, check this out:
 
