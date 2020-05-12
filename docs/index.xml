@@ -6,20 +6,29 @@
     <description>Recent content on Beautiful Code</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 10 May 2020 22:18:20 +0100</lastBuildDate>
+    <lastBuildDate>Tue, 12 May 2020 08:01:54 +0100</lastBuildDate>
     
 	<atom:link href="https://y2kappa.github.io/beautiful-code/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Fibofibofibo</title>
-      <link>https://y2kappa.github.io/beautiful-code/posts/fibofibofibo/</link>
+      <title>Unit Testing in Rust</title>
+      <link>https://y2kappa.github.io/beautiful-code/posts/unit-testing-in-rust/</link>
+      <pubDate>Tue, 12 May 2020 08:01:54 +0100</pubDate>
+      
+      <guid>https://y2kappa.github.io/beautiful-code/posts/unit-testing-in-rust/</guid>
+      <description>If you&amp;rsquo;ve been through the process of adding unit tests in C++ with gmock or OCaml or python you know that you at least need to create a new file, add some linking flags, import a library and trigger the test suite from code and then execute the test program sepately.
+No wonder it takes some painful code review comment to get people to start writing tests.
+Rust turns that pain into pleasure.</description>
+    </item>
+    
+    <item>
+      <title>A less dreadful linked list</title>
+      <link>https://y2kappa.github.io/beautiful-code/posts/linked-list/</link>
       <pubDate>Sun, 10 May 2020 22:18:20 +0100</pubDate>
       
-      <guid>https://y2kappa.github.io/beautiful-code/posts/fibofibofibo/</guid>
-      <description>Let&amp;rsquo;s assume the entire universe hates linked lists, but somehow functional languages make them bearable. I don&amp;rsquo;t mean to trash them too harshly, I did learn a lot about memory management in C++ using linked lists, but that came at a cost to my soul.
-That being said, check this out:
-type linked_list = | End | Node of int * linked_list let ll = Node (1, Node(2, Node(3, End)));; Printing:</description>
+      <guid>https://y2kappa.github.io/beautiful-code/posts/linked-list/</guid>
+      <description>Let&amp;rsquo;s assume the entire universe hates linked lists. But in OCaml</description>
     </item>
     
     <item>

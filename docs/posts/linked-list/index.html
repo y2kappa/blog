@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html><head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>A less dreadful linked list - Beautiful Code</title><meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta property="og:title" content="A less dreadful linked list" />
+<meta property="og:description" content="Let&rsquo;s assume the entire universe hates linked lists. But in OCaml" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://y2kappa.github.io/beautiful-code/posts/linked-list/" />
+<meta property="article:published_time" content="2020-05-10T22:18:20+01:00" />
+<meta property="article:modified_time" content="2020-05-10T22:18:20+01:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="A less dreadful linked list"/>
+<meta name="twitter:description" content="Let&rsquo;s assume the entire universe hates linked lists. But in OCaml"/>
+
+	<link href="https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" media="screen" href="https://y2kappa.github.io/beautiful-code/css/main.css" /><link rel="stylesheet" type="text/css" href="https://y2kappa.github.io/beautiful-code/css/dark.css"  />
+</head><body>
+        <div class="content"><header>
+	<div class="main">
+		<a href="https://y2kappa.github.io/beautiful-code/">Beautiful Code</a>
+	</div>
+	<nav>
+		
+	</nav>
+</header>
+
+<main>
+	<article>
+		<div class="title">
+			<h1 class="title">A less dreadful linked list</h1>
+			<div class="meta">Posted on May 10, 2020</div>
+		</div>
+		
+
+		<section class="body">
+			<p>Let&rsquo;s assume the entire universe hates linked lists, but somehow functional languages make them bearable. I don&rsquo;t mean to trash them too harshly, I did learn a lot about memory management in C++ using linked lists, but that came at a cost to my soul.
+<!-- raw HTML omitted --><!-- raw HTML omitted --></p>
+<p>That being said, check this out:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ocaml" data-lang="ocaml"><span style="color:#66d9ef">type</span> linked_list <span style="color:#f92672">=</span>
+    <span style="color:#f92672">|</span> <span style="color:#a6e22e">End</span>
+    <span style="color:#f92672">|</span> <span style="color:#a6e22e">Node</span> <span style="color:#66d9ef">of</span> <span style="color:#66d9ef">int</span> <span style="color:#f92672">*</span> linked_list
+
+<span style="color:#66d9ef">let</span> ll <span style="color:#f92672">=</span> <span style="color:#a6e22e">Node</span> <span style="color:#f92672">(</span>1<span style="color:#f92672">,</span> <span style="color:#a6e22e">Node</span><span style="color:#f92672">(</span>2<span style="color:#f92672">,</span> <span style="color:#a6e22e">Node</span><span style="color:#f92672">(</span>3<span style="color:#f92672">,</span> <span style="color:#a6e22e">End</span><span style="color:#f92672">)));;</span>
+
+</code></pre></div><p>Printing:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ocaml" data-lang="ocaml"><span style="color:#66d9ef">let</span> <span style="color:#66d9ef">rec</span> stringify ll <span style="color:#f92672">=</span>
+    <span style="color:#66d9ef">match</span> ll <span style="color:#66d9ef">with</span>
+    <span style="color:#f92672">|</span> <span style="color:#a6e22e">End</span> <span style="color:#f92672">-&gt;</span> <span style="color:#e6db74">&#34;End&#34;</span>
+    <span style="color:#f92672">|</span> <span style="color:#a6e22e">Node</span> <span style="color:#f92672">(</span>x<span style="color:#f92672">,</span> nxt<span style="color:#f92672">)</span> <span style="color:#f92672">-&gt;</span> Printf.sprintf <span style="color:#e6db74">&#34;%d -&gt; %s&#34;</span> x <span style="color:#f92672">(</span>stringify nxt<span style="color:#f92672">);;</span>
+
+print_string <span style="color:#f92672">@@</span> stringify ll<span style="color:#f92672">;;</span>
+
+</code></pre></div><p>Output:</p>
+<pre><code>1 -&gt; 2 -&gt; 3 -&gt; End
+</code></pre><p>I mean, come on!</p>
+
+		</section>
+
+		<div class="post-tags">
+			
+			
+			<nav class="nav tags">
+				<ul class="tags">
+					
+					<li><a href="/beautiful-code/tags/ocaml">OCaml</a></li>
+					
+					<li><a href="/beautiful-code/tags/functional">functional</a></li>
+					
+				</ul>
+			</nav>
+			
+			
+		</div>
+	</article>
+</main>
+<footer>
+<hr>⚡️
+	2020  <a href="https://github.com/athul/archie">Archie Theme</a> | Built with <a href="https://gohugo.io">Hugo</a>
+</footer>
+
+
+
+
+</div>
+    </body>
+</html>

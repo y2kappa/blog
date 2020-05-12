@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-	<head>
+<head>
 	<meta name="generator" content="Hugo 0.70.0" />
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>Beautiful Code - Snippets that make you want to clap in awe </title><meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,7 +9,7 @@
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://y2kappa.github.io/beautiful-code/" />
-<meta property="og:updated_time" content="2020-05-10T22:18:20+01:00" />
+<meta property="og:updated_time" content="2020-05-12T08:01:54+01:00" />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Beautiful Code"/>
 <meta name="twitter:description" content=""/>
@@ -18,9 +18,10 @@
 	<link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" media="screen" href="https://y2kappa.github.io/beautiful-code/css/main.css" /><link rel="stylesheet" type="text/css" href="https://y2kappa.github.io/beautiful-code/css/dark.css"  />
 </head>
-	<body>
-		<div class="content">
-			<header>
+
+<body>
+    <div class="content">
+        <header>
 	<div class="main">
 		<a href="https://y2kappa.github.io/beautiful-code/">Beautiful Code</a>
 	</div>
@@ -29,42 +30,74 @@
 	</nav>
 </header>
 
-			
-			<main class="list">
-				<div class="site-description"><p>Snippets that make you want to clap in awe</p></div>
-				
-				
-				
-				<section class="list-item">
-					<h1 class="title"><a href="/beautiful-code/posts/fibofibofibo/">Fibofibofibo</a></h1>
-					<time>May 10, 2020</time>
-					<br><div class="description">
-						
-						Let&rsquo;s assume the entire universe hates linked lists, but somehow functional languages make them bearable. I don&rsquo;t mean to trash them too harshly, I did learn a lot about memory management in C++ using linked lists, but that came at a cost to my soul.
-That being said, check this out:
-type linked_list = | End | Node of int * linked_list let ll = Node (1, Node(2, Node(3, End)));; Printing:&hellip;
-						
-					</div>
-					<a href="/beautiful-code/posts/fibofibofibo/">Read more ⟶</a>
-				</section>
-				
-				<section class="list-item">
-					<h1 class="title"><a href="/beautiful-code/posts/hello-world/">Hello World</a></h1>
-					<time>May 10, 2020</time>
-					<br><div class="description">
-						
-						I recently listened to a podcast in which Elizabeth Gilbert mentioned that sometimes when she reads a well written sentence, it makes her want to stand up an clap for how well written that is.
-I believe the same concept applies to code. I agree with the idea that code is meant to be read, that code is read 10 times more than it is written and therefore we need to optimize for that.&hellip;
-						
-					</div>
-					<a href="/beautiful-code/posts/hello-world/">Read more ⟶</a>
-				</section>
-				
-				
+
+        <main class="list">
+            <div class="site-description"><p>Snippets that make you want to clap in awe</p></div>
+              
+            <section class="list-item">
+                <h1 class="title"><a href="/beautiful-code/posts/unit-testing-in-rust/">Unit Testing in Rust</a></h1>
+                <time>May 12, 2020</time>
+                <br>
+                <div class="description">
+                     If you&rsquo;ve been through the process of adding unit tests in C++ with gmock or OCaml or python you know that you at least need to create a new file, add some linking flags, import a library and trigger the test suite from code and then execute the test program sepately.
+No wonder it takes some painful code review comment to get people to start writing tests.
+Rust turns that pain into pleasure.&hellip; 
+                </div>
+                <div class="code">
+                    <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#75715e">#[test]</span>
+<span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">test_add</span>() {
+  	assert_aeq<span style="color:#f92672">!</span>(<span style="color:#ae81ff">4</span>, add(<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">2</span>));
+}
+</code></pre></div>
+                </div>
+
+                <br>
+                <a href="/beautiful-code/posts/unit-testing-in-rust/">Read more ⟶</a>
+            </section>
+            
+            <section class="list-item">
+                <h1 class="title"><a href="/beautiful-code/posts/linked-list/">A less dreadful linked list</a></h1>
+                <time>May 10, 2020</time>
+                <br>
+                <div class="description">
+                     Let&rsquo;s assume the entire universe hates linked lists. But in OCaml&hellip; 
+                </div>
+                <div class="code">
+                    <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ocaml" data-lang="ocaml"><span style="color:#66d9ef">type</span> linked_list <span style="color:#f92672">=</span>
+  	<span style="color:#f92672">|</span> <span style="color:#a6e22e">End</span>
+  	<span style="color:#f92672">|</span> <span style="color:#a6e22e">Node</span> <span style="color:#66d9ef">of</span> <span style="color:#66d9ef">int</span> <span style="color:#f92672">*</span> linked_list
+
+<span style="color:#66d9ef">let</span> ll <span style="color:#f92672">=</span> <span style="color:#a6e22e">Node</span> <span style="color:#f92672">(</span>1<span style="color:#f92672">,</span> <span style="color:#a6e22e">Node</span><span style="color:#f92672">(</span>2<span style="color:#f92672">,</span> <span style="color:#a6e22e">Node</span><span style="color:#f92672">(</span>3<span style="color:#f92672">,</span> <span style="color:#a6e22e">End</span><span style="color:#f92672">)));;</span>
+</code></pre></div>
+                </div>
+
+                <br>
+                <a href="/beautiful-code/posts/linked-list/">Read more ⟶</a>
+            </section>
+            
+            <section class="list-item">
+                <h1 class="title"><a href="/beautiful-code/posts/hello-world/">Hello World</a></h1>
+                <time>May 10, 2020</time>
+                <br>
+                <div class="description">
+                     I recently listened to a podcast in which Elizabeth Gilbert mentioned that sometimes when she reads a well written sentence, it makes her want to stand up an clap for how well written that is.
+I believe the same concept applies to code. I agree with the idea that code is meant to be read, that code is read 10 times more than it is written and therefore we need to optimize for that.&hellip; 
+                </div>
+                <div class="code">
+                    <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ocaml" data-lang="ocaml"><span style="color:#66d9ef">type</span> food <span style="color:#f92672">=</span>
+  	<span style="color:#f92672">|</span> <span style="color:#a6e22e">Potatoes</span>
+  	<span style="color:#f92672">|</span> <span style="color:#a6e22e">Tomatoes</span>
+  	<span style="color:#f92672">|</span> <span style="color:#a6e22e">Salmon</span> </code></pre></div>
+                </div>
+
+                <br>
+                <a href="/beautiful-code/posts/hello-world/">Read more ⟶</a>
+            </section>
+             
 
 
-			</main>
-			<footer>
+        </main>
+        <footer>
 <hr>⚡️
 	2020  <a href="https://github.com/athul/archie">Archie Theme</a> | Built with <a href="https://gohugo.io">Hugo</a>
 </footer>
@@ -73,7 +106,8 @@ I believe the same concept applies to code. I agree with the idea that code is m
 
 
 
-		</div>
-		
-	</body>
+    </div>
+
+</body>
+
 </html>
