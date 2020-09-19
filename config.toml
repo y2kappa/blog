@@ -1,10 +1,17 @@
-baseURL = "https://y2kappa.github.io/beautiful-code/"
+baseURL = "https://y2kappa.github.io/blog/"
 languageCode = "en-us"
-title = "Beautiful Code"
-theme = "archie"
+title = ""
+theme = "hugo-PaperMod"
 publishDir = "docs"
+googlefonts = ["Droid Sans", "Fira Mono"]
+fontbody = 'Droid Sans'
+fontcode = 'Fira Mono'
 
 [params]
 	mode="dark" # color-mode → light,dark or auto
 	featherIconsCDN=true
-	subtitle = "👨‍💻 Snippets that make you want to clap 👏 in awe 🙌. Rust 🦀 OCaml 🐪 Python 🐍 C++"
+	subtitle = "Me talking to my future me."
+
+[params.homeInfoParams]
+	Title = "Hi there 👋 🐵"
+	Content = "My name is Marius, I sometimes think about stuff. Sometimes that stuff is programming. Most of the times it's me discovering old lessons and relearning old stuff."

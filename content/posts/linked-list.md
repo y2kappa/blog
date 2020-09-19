@@ -1,19 +1,8 @@
 ---
-title: "A less dreadful linked list"
+title: "A less dreadful linked list (or why I like OCaml)"
 date: 2020-05-10T22:18:20+01:00
 draft: false
 tags: ["OCaml", "functional"]
-codelang: ocaml
-code: "type linked_list =
-
-\  	| End
-
-\  	| Node of int * linked_list
-
-
-let ll = Node (1, Node(2, Node(3, End)));;
-
-"
 summary: Let's assume the entire universe hates linked lists. But in OCaml
 ---
 

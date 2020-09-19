@@ -1,27 +1,26 @@
 ---
-title: "Hello World"
+title: "Hello World, yet another programming blog."
 date: 2020-05-10T19:17:56+01:00
 draft: false
 tags: ["OCaml", "functional"]
 tldr: Functional programming ftw
-codelang: ocaml
-code: "type food =
 
-\  	| Potatoes
-
-\  	| Tomatoes
-
-\  	| Salmon
-"
 ---
 
-I recently listened to a podcast in which `Elizabeth Gilbert` mentioned that sometimes when she reads a well written sentence, it makes her want to stand up an clap for how well written that is.
+I recently listened to a podcast with `Elizabeth Gilbert` where she mentioned that sometimes when stumbling upon a well written sentence, it makes her want to stand up an clap at the beauty of it.
 
-I believe the same concept applies to code. I agree with the idea that code is meant to be read, that code is read 10 times more than it is written and therefore we need to optimize for that.
+I believe the same concept applies to code. Or at least it has happened to me a few times while reading code and being like `Ok, that's beautiful`.
+
+I stand by the idea that code is meant to be read, that heuristically code is probably read 10 times more than it is written and therefore we should also optimize for that.
 
 Of course, this is not about a single dimension of code, such as readability, expressiveness, efficiency, etc. It's everything, measured as a whole.
 
-And so, because I'm hungry, I'd like to start with `OCaml`'s variant type, pattern matching and minimal function syntax:
+#### So I decided to write a blog about code I think is beautiful for me, that makes me want to clap.
+
+
+---
+
+And so, just as a first taster, I'd like to start with `OCaml`'s variant type, pattern matching and minimal function syntax:
 
 
 ```ocaml
@@ -44,21 +43,10 @@ let am_i_vegetarian food =
 
 ```
 
-When I first saw pattern matching it blew my mind. Then when I saw how minimal is the syntax for writing functions my mind was blown again.
+For the uninitiated, `am_i_vegetarian` is a function which takes one parameter.
+
+Also, another one from the heart: when I first saw pattern matching I was mind blown. I still am every time I create a variant type. It irritates me when I want to write a more sophisticated enum in Java or C++ and I can't do variants easily.
 
 -----
 
-And some beautiful poetry to go along:
-
-```
-
-I said to my soul, be still, and wait without hope
-For hope would be hope for the wrong thing; wait without love,
-For love would be love of the wrong thing; there is yet faith
-But the faith and the love and the hope are all in the waiting.
-Wait without thought, for you are not ready for thought:
-So the darkness shall be the light, and the stillness the dancing.
-
-```
-
-Have a great day. We're looking for `contributions`. If you want to share a snippet of code you find beautiful, feel free to send a *Pull Request*.
+Have a great day.
