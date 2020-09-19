@@ -6,10 +6,20 @@
     <description>Recent content in Posts on </description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 12 May 2020 08:01:54 +0100</lastBuildDate>
+    <lastBuildDate>Sat, 19 Sep 2020 20:27:20 +0300</lastBuildDate>
     
 	<atom:link href="https://y2kappa.github.io/blog/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Timing Your Function Execution (in Rust)</title>
+      <link>https://y2kappa.github.io/blog/posts/timing-your-function-execution/</link>
+      <pubDate>Sat, 19 Sep 2020 20:27:20 +0300</pubDate>
+      
+      <guid>https://y2kappa.github.io/blog/posts/timing-your-function-execution/</guid>
+      <description>If you ever had to migrate some slow code (Python) to Rust and were mindblown by the speed gains, you are probably now always paranoid for adding extra new code, just so you don&amp;rsquo;t ruin the amazing speed you gained. Those annoying new features adding extra cycles!
+I know I am. I have an AWS lambda function that used to run for 15 seconds end-to-end in Python. I managed to get it to 1.</description>
+    </item>
     
     <item>
       <title>Unit Testing in Rust (or why I love Rust)</title>

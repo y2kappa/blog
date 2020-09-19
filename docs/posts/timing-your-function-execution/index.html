@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<title>Timing Your Function Execution (in Rust) - </title>
+
+<meta name="description" content="If you ever had to migrate some slow code (Python) to Rust and were mindblown by the speed gains, you are probably now always paranoid for adding extra new code, just so you don&rsquo;t ruin the amazing speed you gained. Those annoying new features adding extra cycles!
+I know I am. I have an AWS lambda function that used to run for 15 seconds end-to-end in Python. I managed to get it to 1.">
+<meta name="author" content="">
+<link rel="canonical" href="https://y2kappa.github.io/blog/posts/timing-your-function-execution/" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="https://y2kappa.github.io/blog/css/stylesheet.min.ed498a6253e15a7ac964956d9dcc36e9d8247e061b7b0c696e02cf8ba0d54f34.css" integrity="sha256-7UmKYlPhWnrJZJVtncw26dgkfgYbewxpbgLPi6DVTzQ=" rel="preload stylesheet"
+    as="style">
+
+
+<link rel="apple-touch-icon" href="https://y2kappa.github.io/blog/apple-touch-icon.png">
+<link rel="icon" href="https://y2kappa.github.io/blog/favicon.ico">
+<meta name="generator" content="Hugo 0.70.0" />
+
+
+</head>
+
+<body
+    class="single"
+    id="top">
+<header class="header">
+    <nav class="nav">
+        <p class="logo"><a href="https://y2kappa.github.io/blog/"></a></p>
+    </nav>
+</header>
+    <main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <h1 class="post-title">
+      Timing Your Function Execution (in Rust)
+    </h1>
+    
+    <div class="post-meta">
+      <time>September 19, 2020</time>
+      
+      
+    </div>
+    
+  </header>
+  
+  
+  <div class="post-content"><p>If you ever had to migrate some slow code (Python) to Rust and were mindblown by the speed gains, you are probably now always paranoid for adding extra new code, just so you don&rsquo;t ruin the amazing speed you gained. Those annoying new features adding extra cycles!</p>
+<p>I know I am. I have an AWS lambda function that used to run for 15 seconds end-to-end in Python. I managed to get it to 1.5 seconds in Rust, so like a 10x gain, and now every time I add new functionality I cringe at the extra new miliseconds that it adds.</p>
+<p>That&rsquo;s why I constantly measure the speed of my functions and try to stay within the previous limits. Having the metrics always right there in front of you makes you optimize right away rather than later on when you discover things are slow.</p>
+<p>Also, it&rsquo;s nice to see that your complicated IO bound code takes very little, some vanity metrics to soften your ego.</p>
+<p>And so I used to do this all the time:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">let</span> start <span style="color:#f92672">=</span> Instant::now();
+<span style="color:#75715e">// my logic
+</span><span style="color:#75715e"></span>info<span style="color:#f92672">!</span>(<span style="color:#e6db74">&#34;function=call_firebase duration={}&#34;</span>, start.elapsed());
+</code></pre></div><p>This is everywhere in my code. No, I don&rsquo;t think it&rsquo;s ugly and yes it probably is useless in most of the places. But it gives me a sense of control. Also it keeps reminding me of what functions I might want to optimize.</p>
+<p>But it&rsquo;s really verbose, so I developed a macro that does just that.</p>
+<p>How to get started:</p>
+<pre><code>$ cargo new --bin hello
+$ cd hello
+$ cargo run
+   Compiling hello v0.1.0 (hello)
+    Finished dev [unoptimized + debuginfo] target(s) in 1.40s
+     Running `target/debug/hello`
+Hello, world!
+
+</code></pre><p><code>main.rs</code> is:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {
+    println<span style="color:#f92672">!</span>(<span style="color:#e6db74">&#34;Hello, world!&#34;</span>);
+}
+</code></pre></div><p>So now, instead of:</p>
+<pre><code>use std::time::Instant;
+
+fn main() {
+    let start = Instant::now();
+    println!(&quot;Hello, world!&quot;);
+
+    println!(&quot;function=main duration={:?}&quot;, start.elapsed());
+}
+</code></pre><p>You can use <a href="https://crates.io/crates/timed">timed</a> and do:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-toml" data-lang="toml">[<span style="color:#a6e22e">dependencies</span>]
+<span style="color:#a6e22e">timed</span> = <span style="color:#e6db74">&#34;0.1.2&#34;</span>
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">use</span> timed::timed;
+
+<span style="color:#75715e">#[timed]</span>
+<span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {
+    println<span style="color:#f92672">!</span>(<span style="color:#e6db74">&#34;Hello, world!&#34;</span>);
+}
+</code></pre></div><pre><code>: cargo run
+Hello, world!
+function=main duration=28.301µs
+</code></pre><p>Next time we&rsquo;ll talk about how this crate works.</p>
+</div>
+  <footer class="post-footer">
+    
+  </footer>
+</article>
+
+
+    </main><footer class="footer">
+    <span>&copy; 2020 <a href="https://y2kappa.github.io/blog/"></a></span>
+    <span>&middot;</span>
+    <span>Powered by <a href="https://gohugo.io/" rel="noopener" target="_blank">Hugo️️</a>️</span>
+    <span>&middot;</span>
+    <span>Theme️ <a href="https://github.com/adityatelange/hugo-PaperMod" rel="noopener"
+            target="_blank">PaperMod</a></span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top">
+    <button class="top-link" id="top-link" type="button">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6">
+            <path d="M12 6H0l6-6z" /></svg>
+    </button>
+</a>
+
+
+<script src="https://y2kappa.github.io/blog/js/highlight.min.min.e7afc2928c0925d65c4732dfebe147014d91299a98e819e4b42f25c4fa68e91c.js" integrity="sha256-56/CkowJJdZcRzLf6&#43;FHAU2RKZqY6BnktC8lxPpo6Rw="></script>
+
+<script>
+    window.onload = function () {
+        if (localStorage.getItem("menu-scroll-position")) {
+            document.getElementById('menu').scrollLeft = localStorage.getItem("menu-scroll-position");
+        }
+    }
+    
+    hljs.initHighlightingOnLoad();
+    
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+
+            document.querySelector(this.getAttribute("href")).scrollIntoView({
+                behavior: "smooth"
+            });
+        });
+    });
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+    function menu_on_scroll() {
+        localStorage.setItem("menu-scroll-position", document.getElementById('menu').scrollLeft);
+    }
+</script>
+</body>
+
+</html>

@@ -1,7 +1,7 @@
 ---
 title: "Timing Your Function Execution (in Rust)"
 date: 2020-09-19T20:27:20+03:00
-draft: true
+draft: false
 ---
 
 If you ever had to migrate some slow code (Python) to Rust and were mindblown by the speed gains, you are probably now always paranoid for adding extra new code, just so you don't ruin the amazing speed you gained. Those annoying new features adding extra cycles!
