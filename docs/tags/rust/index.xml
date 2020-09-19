@@ -2,24 +2,24 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Rust on </title>
-    <link>/tags/rust/</link>
+    <link>https://y2kappa.github.io/blog/tags/rust/</link>
     <description>Recent content in Rust on </description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Tue, 12 May 2020 08:01:54 +0100</lastBuildDate>
     
-	<atom:link href="/tags/rust/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://y2kappa.github.io/blog/tags/rust/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Unit Testing in Rust (or why I love Rust)</title>
-      <link>/posts/unit-testing-in-rust/</link>
+      <link>https://y2kappa.github.io/blog/posts/unit-testing-in-rust/</link>
       <pubDate>Tue, 12 May 2020 08:01:54 +0100</pubDate>
       
-      <guid>/posts/unit-testing-in-rust/</guid>
-      <description>If you&amp;rsquo;ve been through the process of adding unit tests in C++ with gmock or OCaml or python you know that you at least need to create a new file, add some linking flags, import a library and trigger the test suite from code and then execute the test program sepately.
-No wonder it takes some painful code review comment to get people to start writing tests.
-Rust turns that pain into pleasure.</description>
+      <guid>https://y2kappa.github.io/blog/posts/unit-testing-in-rust/</guid>
+      <description>If you&amp;rsquo;ve been through the process of adding unit tests in C++ with gmock or OCaml or python you know that you at least need to create a new file, add some linking flags, import a library and trigger the test suite from code and then execute the test program separately.
+No wonder it takes a not so subtle code review comment to get people to start writing tests.
+Let&amp;rsquo;s take another use case.</description>
     </item>
     
   </channel>

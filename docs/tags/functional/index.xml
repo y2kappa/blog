@@ -2,32 +2,33 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>functional on </title>
-    <link>/tags/functional/</link>
+    <link>https://y2kappa.github.io/blog/tags/functional/</link>
     <description>Recent content in functional on </description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sun, 10 May 2020 22:18:20 +0100</lastBuildDate>
     
-	<atom:link href="/tags/functional/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://y2kappa.github.io/blog/tags/functional/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>A less dreadful linked list (or why I love OCaml)</title>
-      <link>/posts/linked-list/</link>
+      <title>A less dreadful linked list (or why I like OCaml)</title>
+      <link>https://y2kappa.github.io/blog/posts/linked-list/</link>
       <pubDate>Sun, 10 May 2020 22:18:20 +0100</pubDate>
       
-      <guid>/posts/linked-list/</guid>
+      <guid>https://y2kappa.github.io/blog/posts/linked-list/</guid>
       <description>Let&amp;rsquo;s assume the entire universe hates linked lists. But in OCaml</description>
     </item>
     
     <item>
       <title>Hello World, yet another programming blog.</title>
-      <link>/posts/hello-world/</link>
+      <link>https://y2kappa.github.io/blog/posts/hello-world/</link>
       <pubDate>Sun, 10 May 2020 19:17:56 +0100</pubDate>
       
-      <guid>/posts/hello-world/</guid>
-      <description>I recently listened to a podcast in which Elizabeth Gilbert mentioned that sometimes when she reads a well written sentence, it makes her want to stand up an clap for how well written that is.
-I believe the same concept applies to code. I agree with the idea that code is meant to be read, that code is read 10 times more than it is written and therefore we need to optimize for that.</description>
+      <guid>https://y2kappa.github.io/blog/posts/hello-world/</guid>
+      <description>I recently listened to a podcast with Elizabeth Gilbert where she mentioned that sometimes when stumbling upon a well written sentence, it makes her want to stand up an clap at the beauty of it.
+I believe the same concept applies to code. Or at least it has happened to me a few times while reading code and being like Ok, that&#39;s beautiful.
+I stand by the idea that code is meant to be read, that heuristically code is probably read 10 times more than it is written and therefore we should also optimize for that.</description>
     </item>
     
   </channel>

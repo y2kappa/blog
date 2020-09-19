@@ -7,11 +7,11 @@
 
 <title>Unit Testing in Rust (or why I love Rust) - </title>
 
-<meta name="description" content="If you&rsquo;ve been through the process of adding unit tests in C&#43;&#43; with gmock or OCaml or python you know that you at least need to create a new file, add some linking flags, import a library and trigger the test suite from code and then execute the test program sepately.
-No wonder it takes some painful code review comment to get people to start writing tests.
-Rust turns that pain into pleasure.">
+<meta name="description" content="If you&rsquo;ve been through the process of adding unit tests in C&#43;&#43; with gmock or OCaml or python you know that you at least need to create a new file, add some linking flags, import a library and trigger the test suite from code and then execute the test program separately.
+No wonder it takes a not so subtle code review comment to get people to start writing tests.
+Let&rsquo;s take another use case.">
 <meta name="author" content="">
-<link rel="canonical" href="/posts/unit-testing-in-rust/" />
+<link rel="canonical" href="https://y2kappa.github.io/blog/posts/unit-testing-in-rust/" />
 
 
 
@@ -27,12 +27,12 @@ Rust turns that pain into pleasure.">
 
 
 
-<link href="/css/stylesheet.min.4581144a74632233912d1badb7cee91e143c7449a9eb20e8ccfc496d608675ac.css" integrity="sha256-RYEUSnRjIjORLRutt87pHhQ8dEmp6yDozPxJbWCGdaw=" rel="preload stylesheet"
+<link href="https://y2kappa.github.io/blog/css/stylesheet.min.ed498a6253e15a7ac964956d9dcc36e9d8247e061b7b0c696e02cf8ba0d54f34.css" integrity="sha256-7UmKYlPhWnrJZJVtncw26dgkfgYbewxpbgLPi6DVTzQ=" rel="preload stylesheet"
     as="style">
 
 
-<link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="icon" href="favicon.ico">
+<link rel="apple-touch-icon" href="https://y2kappa.github.io/blog/apple-touch-icon.png">
+<link rel="icon" href="https://y2kappa.github.io/blog/favicon.ico">
 <meta name="generator" content="Hugo 0.70.0" />
 
 
@@ -43,7 +43,7 @@ Rust turns that pain into pleasure.">
     id="top">
 <header class="header">
     <nav class="nav">
-        <p class="logo"><a href=""></a></p>
+        <h1 class="logo"><a href="https://y2kappa.github.io/blog/"></a></h1>
     </nav>
 </header>
     <main class="main">
@@ -66,10 +66,19 @@ Rust turns that pain into pleasure.">
   <div class="post-content"><p>If you&rsquo;ve been through the process of adding unit tests in C++ with gmock or
 OCaml or python you know that you at least need to create a new file, add some
 linking flags, import a library and trigger the test suite from code and then
-execute the test program sepately.</p>
-<p>No wonder it takes some painful code review comment to get people to start writing tests.</p>
+execute the test program separately.</p>
+<p>No wonder it takes a not so subtle code review comment to get people to start writing tests.</p>
+<p>Let&rsquo;s take another use case. You clone a big repository, maybe even yours from a while ago, and you want to change the implementation of a function. Maybe that function does not have a unit test. Or maybe you want to extract the functionality of a function which, again, does not have a test.</p>
+<p>I have seen a few things people to to go around this:</p>
+<ul>
+<li>Create a new &lsquo;main&rsquo; only file what only executes that function you want to test or develop. If you write C++ you need to list out all the dependencies that the new file needs, all link flags and cross your fingers and hope to work.</li>
+<li>Create a test file which you have to ditch afterwards. Probably you let it live there and you never call it in your CI and someone tells you to remove it from the review. Maybe nobody. I do that mostly in <code>python</code></li>
+<li>Add your test next to some other existing tests but it doesn&rsquo;t quite fit anywhere. Also, maybe you just simply want to call that function with a few inputs to see what it generates. That&rsquo;s not really a test, it&rsquo;s just you trying to call the function directly, rather than trying to call the top level main file. So it doesn&rsquo;t fit really anyhere.</li>
+</ul>
+<p>You&rsquo;re basically struggling to do TDD because your tooling does not enable you to do so. Even if you have good intentions, it&rsquo;s annoyingly painful.</p>
+<hr>
 <p><code>Rust</code> turns that pain into pleasure.</p>
-<p>Let&rsquo;s say you have this main file:</p>
+<p>Let&rsquo;s say you have this literally is your  <code>main.rs</code> file:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust">
 <span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">add</span>(a: <span style="color:#66d9ef">i32</span>, b: <span style="color:#66d9ef">i32</span>) -&gt; <span style="color:#66d9ef">i32</span> {
     a <span style="color:#f92672">+</span> b
@@ -84,8 +93,7 @@ execute the test program sepately.</p>
 <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">test_add</span>() {
     assert_eq<span style="color:#f92672">!</span>(<span style="color:#ae81ff">4</span>, add(<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">2</span>));
 }
-</code></pre></div><p>That&rsquo;s it.</p>
-<p>So the whole file is:</p>
+</code></pre></div><p>That&rsquo;s it. So the whole file <code>main.rs</code> becomes:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">add</span>(a: <span style="color:#66d9ef">i32</span>, b: <span style="color:#66d9ef">i32</span>) -&gt; <span style="color:#66d9ef">i32</span> {
     a <span style="color:#f92672">+</span> b
 }
@@ -98,13 +106,19 @@ execute the test program sepately.</p>
 <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">test_add</span>() {
     assert_eq<span style="color:#f92672">!</span>(<span style="color:#ae81ff">4</span>, add(<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">2</span>));
 }
-</code></pre></div><hr>
+</code></pre></div><p>The beauty of this is that:</p>
+<ul>
+<li>all you had to do is add code in the <strong>same</strong> file as the function you want to test</li>
+<li>that code <strong>does not</strong> get compiled in the new binary</li>
+<li>you did not have to create any new files, no new linking flags, no test suite, no new executable</li>
+</ul>
+<hr>
 <p>Be a good citizen and start learning <code>Rust</code>.</p>
 </div>
   <footer class="post-footer">
     <ul class="post-tags">
-      <li><a href="tags/rust">Rust</a></li>
-      <li><a href="tags/testing">testing</a></li>
+      <li><a href="https://y2kappa.github.io/blog/tags/rust">Rust</a></li>
+      <li><a href="https://y2kappa.github.io/blog/tags/testing">testing</a></li>
     </ul>
     
   </footer>
@@ -112,7 +126,7 @@ execute the test program sepately.</p>
 
 
     </main><footer class="footer">
-    <span>&copy; 2020 <a href=""></a></span>
+    <span>&copy; 2020 <a href="https://y2kappa.github.io/blog/"></a></span>
     <span>&middot;</span>
     <span>Powered by <a href="https://gohugo.io/" rel="noopener" target="_blank">Hugo️️</a>️</span>
     <span>&middot;</span>
@@ -127,7 +141,7 @@ execute the test program sepately.</p>
 </a>
 
 
-<script src="/js/highlight.min.min.e7afc2928c0925d65c4732dfebe147014d91299a98e819e4b42f25c4fa68e91c.js" integrity="sha256-56/CkowJJdZcRzLf6&#43;FHAU2RKZqY6BnktC8lxPpo6Rw="></script>
+<script src="https://y2kappa.github.io/blog/js/highlight.min.min.e7afc2928c0925d65c4732dfebe147014d91299a98e819e4b42f25c4fa68e91c.js" integrity="sha256-56/CkowJJdZcRzLf6&#43;FHAU2RKZqY6BnktC8lxPpo6Rw="></script>
 
 <script>
     window.onload = function () {
