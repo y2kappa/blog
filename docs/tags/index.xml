@@ -6,10 +6,28 @@
     <description>Recent content in Tags on </description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 12 May 2020 08:01:54 +0100</lastBuildDate>
+    <lastBuildDate>Sun, 01 Nov 2020 10:32:47 +0000</lastBuildDate>
     
 	<atom:link href="https://y2kappa.github.io/blog/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>life</title>
+      <link>https://y2kappa.github.io/blog/tags/life/</link>
+      <pubDate>Sun, 01 Nov 2020 10:32:47 +0000</pubDate>
+      
+      <guid>https://y2kappa.github.io/blog/tags/life/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>software</title>
+      <link>https://y2kappa.github.io/blog/tags/software/</link>
+      <pubDate>Sun, 01 Nov 2020 10:32:47 +0000</pubDate>
+      
+      <guid>https://y2kappa.github.io/blog/tags/software/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Rust</title>

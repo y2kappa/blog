@@ -6,10 +6,19 @@
     <description>Recent content on </description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 19 Sep 2020 20:27:20 +0300</lastBuildDate>
+    <lastBuildDate>Sun, 01 Nov 2020 10:32:47 +0000</lastBuildDate>
     
 	<atom:link href="https://y2kappa.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Experience</title>
+      <link>https://y2kappa.github.io/blog/posts/experience/</link>
+      <pubDate>Sun, 01 Nov 2020 10:32:47 +0000</pubDate>
+      
+      <guid>https://y2kappa.github.io/blog/posts/experience/</guid>
+      <description>I am finally able to appreciate experience. My ego is finally giving it to the people who earned it.</description>
+    </item>
     
     <item>
       <title>Timing Your Function Execution (in Rust)</title>

@@ -4,12 +4,32 @@
   
   <url>
     <loc>https://y2kappa.github.io/blog/</loc>
-    <lastmod>2020-09-19T20:27:20+03:00</lastmod>
+    <lastmod>2020-11-01T10:32:47+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://y2kappa.github.io/blog/posts/experience/</loc>
+    <lastmod>2020-11-01T10:32:47+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://y2kappa.github.io/blog/tags/life/</loc>
+    <lastmod>2020-11-01T10:32:47+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://y2kappa.github.io/blog/posts/</loc>
-    <lastmod>2020-09-19T20:27:20+03:00</lastmod>
+    <lastmod>2020-11-01T10:32:47+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://y2kappa.github.io/blog/tags/software/</loc>
+    <lastmod>2020-11-01T10:32:47+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://y2kappa.github.io/blog/tags/</loc>
+    <lastmod>2020-11-01T10:32:47+00:00</lastmod>
   </url>
   
   <url>
@@ -19,11 +39,6 @@
   
   <url>
     <loc>https://y2kappa.github.io/blog/tags/rust/</loc>
-    <lastmod>2020-05-12T08:01:54+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://y2kappa.github.io/blog/tags/</loc>
     <lastmod>2020-05-12T08:01:54+01:00</lastmod>
   </url>
   

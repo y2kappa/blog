@@ -15,5 +15,11 @@
 ## Posts ideas:
 - [ ] Testing Rust in AWS Lambda
 - [ ] Timing your function execution
-- [ ] Proc macro which counts how many times a function was called: https://stackoverflow.com/questions/54582761/how-to-check-if-a-function-has-been-called-in-rust
+- [ ] Google tracing article:
+    - https://docs.google.com/document/d/1CvAClvFfyA5R-PhYUmn5OOQtYMH4h6I0nSsKchNAySU/edit
+    - replicating the flamegraph
+- [ ] Proc macro which counts how many times a function was called
+    - https://stackoverflow.com/questions/54582761/how-to-check-if-a-function-has-been-called-in-rust
+    - https://users.rust-lang.org/t/rust-how-to-check-whether-a-function-being-called-or-not/25045/13
 - [ ] Proc macro that checks code coverage
+- [ ] Demonstrating `cargo expand`
