@@ -10,6 +10,7 @@ fontcode = 'Fira Mono'
 [params]
 	mode="dark" # color-mode → light,dark or auto
 	featherIconsCDN=true
+	defaultTheme = 'dark'
 	subtitle = "Me talking to my future me."
 
 [params.homeInfoParams]
