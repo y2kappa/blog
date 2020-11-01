@@ -1,18 +1,22 @@
 # Blog
 
-- `$ cd themes && git clone https://github.com/athul/archie.git`
+Hosted at [https://y2kappa.github.io/blog](https://y2kappa.github.io/blog).
+
+## Build
+- `$ cd themes && git clone git@github.com:adityatelange/hugo-PaperMod.git`
 - `$ hugo server -D` to test locally
 - `$ hugo new posts/hello-world.md`
 - `$ hugo` to publish
 
 
 ## TODO
-- [ ] modify theme to have the preview as highlighted code
+- [x] modify theme to have the preview as highlighted code
 - [ ] get custom domain and link it
 - [ ] 30 days daily challenges
 - [ ] newsletter box - get a `post` endpoint via aws lambda & dynamodb
 
 ## Posts ideas:
+- [ ] What is architecture / When should you rewrite your code? How important is it to do it even if deliverables are pressing.
 - [ ] Testing Rust in AWS Lambda
 - [ ] Timing your function execution
 - [ ] Google tracing article:
@@ -23,3 +27,8 @@
     - https://users.rust-lang.org/t/rust-how-to-check-whether-a-function-being-called-or-not/25045/13
 - [ ] Proc macro that checks code coverage
 - [ ] Demonstrating `cargo expand`
+    - [ ] syntactic sugar in rust
+    - [ ] templates in Rust
+- [ ] trying to learn C++ posts
+- [ ] trying to learn Haskell posts
+- [ ] trying to learn java posts
