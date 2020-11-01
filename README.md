@@ -27,6 +27,8 @@ Hosted at [https://y2kappa.github.io/blog](https://y2kappa.github.io/blog).
     - https://users.rust-lang.org/t/rust-how-to-check-whether-a-function-being-called-or-not/25045/13
 - [ ] Proc macro that checks code coverage
 - [ ] Demonstrating `cargo expand`
+    - [ ] syntactic sugar in rust
+    - [ ] templates in Rust
 - [ ] trying to learn C++ posts
 - [ ] trying to learn Haskell posts
 - [ ] trying to learn java posts
