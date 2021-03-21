@@ -17,7 +17,7 @@
       <pubDate>Sun, 21 Mar 2021 18:01:15 +0000</pubDate>
       
       <guid>https://y2kappa.github.io/blog/posts/cargo-expand/</guid>
-      <description>I have given up on choosing a language to be my favourite, mainly due to how many trade-offs are when choosing one language. It was C++ at first, my first true love, due to the power I felt when managing those pointers. Then came Python for the speed of iteration, and eventually I grew more attracted by OCaml and Rust. Both of them shifted some mental furniture that made me see program design with different lenses.</description>
+      <description>I have given up on choosing a language to be my favourite, mainly due to how many trade-offs there are when choosing one language. It was C++ at first, my first true love, due to the power I felt when managing those pointers. Then came Python for the speed of iteration, and eventually I grew more attracted by OCaml and Rust. Both of them shifted some mental furniture that made me see program design with different lenses.</description>
     </item>
     
     <item>
