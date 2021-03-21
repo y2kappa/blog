@@ -11,7 +11,7 @@ I recently listened to a podcast with `Elizabeth Gilbert` where she mentioned th
 
 I believe the same concept applies to code. Or at least it has happened to me a few times while reading code and being like `Ok, that's beautiful`.
 
-I stand by the idea that code is meant to be read, that heuristically code is probably read 10 times more than it is written and therefore we should also optimize for that.
+I stand by the idea that code is meant to be read, that, heuristically, code is probably read 10 times more than it is written and therefore we should also optimize for that.
 
 Of course, this is not about a single dimension of code, such as readability, expressiveness, efficiency, etc. It's everything, measured as a whole.
 

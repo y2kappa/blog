@@ -14,7 +14,9 @@ The problem with experience is that it's non deterministic. You cannot expect to
 
 I guess the solution is to **intentionally** get exposure to as many things as possible, hopefully with minimum cost on the rest of your life. There is probably a smart hack that doesn't make you trade off something important for experience.
 
-I guess this is valid when it comes to either choosing a design pattern in Java, to handling a difficult conversation, or ... (I don't know, probably I don't have enough experience yet to come up with another example).
+I guess this is valid when it comes to either choosing a design pattern in Java, to handling a difficult conversation, or saying 'no' to a costly design.
+
+Another aspect of it, especially when it comes to software engineers, is that one good engineer with a lot of useful experience can be worth several mediocre ones. Maybe not for productivity and throughput, but for the best practices they can establish, the inspiration they offer to junior engineers to better themselves, the strategic decisions that can save the company years of struggling with monolithic architectures with slow time to market.
 
 > "Knowledge is not only power; it is happiness, and being taught is the intellectual analog of being loved."
 > — Isaac Asimov, Yours, Isaac Asimov: A Life in Letters

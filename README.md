@@ -32,3 +32,18 @@ Hosted at [https://y2kappa.github.io/blog](https://y2kappa.github.io/blog).
 - [ ] trying to learn C++ posts
 - [ ] trying to learn Haskell posts
 - [ ] trying to learn java posts
+- [ ] A comparison between Rust and other languages
+    - [ ] C++ pointers
+    - [ ] Java interfaces & streams() and collect()
+    - [ ] Python for loops & ranges & slices
+    - [ ] OCaml pattern matching & variant types & structs
+    - [ ] "let" from javascript etc
+    - [ ] OCaml & Haskell deriving and syntax ppx
+    - [ ] C++ macros
+- [ ] new article on how you end up with bad code
+    - so much tribal knowledge, so much knowledge comes from years of practice
+    - such that initial code is unavoidably bad
+    - arcitecure does not meet requirements anymore
+- [ ] article about deleting code
+- [ ] cargo depcheck like npm with warnings and clippy and github action
+- [ ] cargo binary to create a template rust html
