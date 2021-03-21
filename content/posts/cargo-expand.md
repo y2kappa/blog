@@ -10,9 +10,9 @@ I have also written Typescript and React recently and I was shocked at the throu
 
 And these recent events made me appreciate that the mix of features that you want from a language are those that satisfy the most important job of an engineer: productivity. Of course, productivity can be a function of domain, and therefore trying to use Rust for the frontent is not as productive as using React Native, just as choosing Typescript for Monte Carlo simulations is not gonna cut it.
 
-Eventually, even memory safety is a **productivity feature** since it removes the time used to search for bugs. Strong typing, sum types, exhaustive pattern matching are all working together in making the developer build more, better stuff, with less cognitive overload, with a lot of help from the compiler, with less code due to expressivity and and the open source community.
+Eventually, even memory safety is a **productivity feature** since it removes the time used to search for bugs. Strong typing, sum types, exhaustive pattern matching are all working together in making the developer build more, better stuff, with less cognitive overload, with a lot of help from the compiler, with less code due to expressivity and the open source community.
 
-I read recently [Paul Graham's](http://www.paulgraham.com/avg.html) preference on choosing a hard language with a lot of features for several reasons: top two being the quality of people the language attracts, and the output the language enables. As an example, he attributes that a lot of the fast time-to-market of their new features were due to Lisp's macros.
+I read recently [Paul Graham's](http://www.paulgraham.com/avg.html) preference on choosing a hard, difficult, unpopular language with a lot of features for several reasons: top two being the quality of people the language attracts, and the output the language enables. As an example, he attributes that a lot of the fast time-to-market of their new features were due to Lisp's macros.
 
 This made me think of Rust's macros, how useful they are as a construct, that they allow you to write code that writes code. It's not that Rust is amazing because of this feature, but it's amazing because it can substitute missing features. It would be great if it didn't need it, but this is the second best. Heck, even OCaml has it in the form of ppx.
 
