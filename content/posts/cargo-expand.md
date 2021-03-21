@@ -1,8 +1,23 @@
 ---
-title: "Cargo Expand"
-date: 2020-11-01T11:01:15Z
+title: "The productivity of a language - the case of Rust macros"
+date: 2021-03-21T18:01:15Z
 draft: false
 ---
+
+I have given up on choosing a language to be my favourite, mainly due to how many trade-offs are when choosing one language. It was C++ at first, my first true love, due to the power I felt when managing those pointers. Then came Python for the speed of iteration, and eventually I grew more attracted by OCaml and Rust. Both of them shifted some mental furniture that made me see program design with different lenses. At the moment I am leaning back towards OCaml as I started appreciating it more since passing functions as arguments in Rust seems a bit too clunky.
+
+I have also written Typescript and React recently and I was shocked at the throughput that the two technologies together provide. Having come from an Android + Java recent trauma, I can honestly say I absolutely love React Native.
+
+And these recent events made me appreciate that the mix of features that you want from a language are those that satisfy the most important job of an engineer: productivity. Of course productivity can be a function of domain, and therefore trying to use Rust for the frontent is not as productive as using React Native, just as choosing Typescript for Monte Carlo simulations is not gonna cut it.
+
+Eventually, even memory safety is a **productivity feature** since it removes the time used to search for bugs. Strong typing, sum types, exhaustive pattern matching are all working together in making the developer build more, better stuff, with less cognitive overload, with a lot of help from the compiler, with less code due to expressivity and and the open source community.
+
+I read recently [Paul Graham's](http://www.paulgraham.com/avg.html) preference on choosing a hard language with a lot of features for several reasons: top two being the quality of people the language attracts, and the output the language enables. As an example, he attributes that a lot of the fast time-to-market of their new features were due to Lisp's macros.
+
+This made me think of Rust's macros, how useful they are as a construct, that they allow you to write code that writes code. It's not that Rust is amazing because of this feature, but it's amazing because it can substitute missing features. It would be great if it didn't need it, but this is the second best. Heck, even OCaml has it in the form of ppx.
+
+Some examples of how Rust looks like when macros are expanded.
+
 
 1. `main()`
 
