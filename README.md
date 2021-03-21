@@ -47,5 +47,3 @@ Hosted at [https://y2kappa.github.io/blog](https://y2kappa.github.io/blog).
 - [ ] article about deleting code
 - [ ] cargo depcheck like npm with warnings and clippy and github action
 - [ ] cargo binary to create a template rust html
-
-- [ ] gatsby small website with uk's incompetence about coronavirus
