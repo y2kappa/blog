@@ -6,10 +6,19 @@
     <description>Recent content in Posts on </description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 01 Nov 2020 10:32:47 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 21 Mar 2021 18:01:15 +0000</lastBuildDate>
     
 	<atom:link href="https://y2kappa.github.io/blog/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>The productivity of a language - the case of Rust macros</title>
+      <link>https://y2kappa.github.io/blog/posts/cargo-expand/</link>
+      <pubDate>Sun, 21 Mar 2021 18:01:15 +0000</pubDate>
+      
+      <guid>https://y2kappa.github.io/blog/posts/cargo-expand/</guid>
+      <description>I have given up on choosing a language to be my favourite, mainly due to how many trade-offs are when choosing one language. It was C++ at first, my first true love, due to the power I felt when managing those pointers. Then came Python for the speed of iteration, and eventually I grew more attracted by OCaml and Rust. Both of them shifted some mental furniture that made me see program design with different lenses.</description>
+    </item>
     
     <item>
       <title>Experience</title>
@@ -58,7 +67,7 @@ Let&amp;rsquo;s take another use case.</description>
       <guid>https://y2kappa.github.io/blog/posts/hello-world/</guid>
       <description>I recently listened to a podcast with Elizabeth Gilbert where she mentioned that sometimes when stumbling upon a well written sentence, it makes her want to stand up an clap at the beauty of it.
 I believe the same concept applies to code. Or at least it has happened to me a few times while reading code and being like Ok, that&#39;s beautiful.
-I stand by the idea that code is meant to be read, that heuristically code is probably read 10 times more than it is written and therefore we should also optimize for that.</description>
+I stand by the idea that code is meant to be read, that, heuristically, code is probably read 10 times more than it is written and therefore we should also optimize for that.</description>
     </item>
     
   </channel>

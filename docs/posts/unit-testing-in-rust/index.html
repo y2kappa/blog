@@ -63,13 +63,10 @@ Let&rsquo;s take another use case.">
   </header>
   
   
-  <div class="post-content"><p>If you&rsquo;ve been through the process of adding unit tests in C++ with gmock or
-OCaml or python you know that you at least need to create a new file, add some
-linking flags, import a library and trigger the test suite from code and then
-execute the test program separately.</p>
+  <div class="post-content"><p>If you&rsquo;ve been through the process of adding unit tests in C++ with gmock or OCaml or python you know that you at least need to create a new file, add some linking flags, import a library and trigger the test suite from code and then execute the test program separately.</p>
 <p>No wonder it takes a not so subtle code review comment to get people to start writing tests.</p>
 <p>Let&rsquo;s take another use case. You clone a big repository, maybe even yours from a while ago, and you want to change the implementation of a function. Maybe that function does not have a unit test. Or maybe you want to extract the functionality of a function which, again, does not have a test.</p>
-<p>I have seen a few things people to to go around this:</p>
+<p>I have seen a few things people try to go around this:</p>
 <ul>
 <li>Create a new &lsquo;main&rsquo; only file what only executes that function you want to test or develop. If you write C++ you need to list out all the dependencies that the new file needs, all link flags and cross your fingers and hope to work.</li>
 <li>Create a test file which you have to ditch afterwards. Probably you let it live there and you never call it in your CI and someone tells you to remove it from the review. Maybe nobody. I do that mostly in <code>python</code></li>
@@ -126,7 +123,7 @@ execute the test program separately.</p>
 
 
     </main><footer class="footer">
-    <span>&copy; 2020 <a href="https://y2kappa.github.io/blog/"></a></span>
+    <span>&copy; 2021 <a href="https://y2kappa.github.io/blog/"></a></span>
     <span>&middot;</span>
     <span>Powered by <a href="https://gohugo.io/" rel="noopener" target="_blank">Hugo️️</a>️</span>
     <span>&middot;</span>

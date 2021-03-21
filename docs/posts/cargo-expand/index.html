@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<title>The productivity of a language - the case of Rust macros - </title>
+
+<meta name="description" content="I have given up on choosing a language to be my favourite, mainly due to how many trade-offs are when choosing one language. It was C&#43;&#43; at first, my first true love, due to the power I felt when managing those pointers. Then came Python for the speed of iteration, and eventually I grew more attracted by OCaml and Rust. Both of them shifted some mental furniture that made me see program design with different lenses.">
+<meta name="author" content="">
+<link rel="canonical" href="https://y2kappa.github.io/blog/posts/cargo-expand/" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="https://y2kappa.github.io/blog/css/stylesheet.min.ed498a6253e15a7ac964956d9dcc36e9d8247e061b7b0c696e02cf8ba0d54f34.css" integrity="sha256-7UmKYlPhWnrJZJVtncw26dgkfgYbewxpbgLPi6DVTzQ=" rel="preload stylesheet"
+    as="style">
+
+
+<link rel="apple-touch-icon" href="https://y2kappa.github.io/blog/apple-touch-icon.png">
+<link rel="icon" href="https://y2kappa.github.io/blog/favicon.ico">
+<meta name="generator" content="Hugo 0.70.0" />
+
+
+</head>
+
+<body
+    class="single dark "
+    id="top">
+<header class="header">
+    <nav class="nav">
+        <p class="logo"><a href="https://y2kappa.github.io/blog/"></a></p>
+    </nav>
+</header>
+    <main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <h1 class="post-title">
+      The productivity of a language - the case of Rust macros
+    </h1>
+    
+    <div class="post-meta">
+      <time>March 21, 2021</time>
+      
+      
+    </div>
+    
+  </header>
+  
+  
+  <div class="post-content"><p>I have given up on choosing a language to be my favourite, mainly due to how many trade-offs are when choosing one language. It was C++ at first, my first true love, due to the power I felt when managing those pointers. Then came Python for the speed of iteration, and eventually I grew more attracted by OCaml and Rust. Both of them shifted some mental furniture that made me see program design with different lenses. At the moment I am leaning back towards OCaml as I started appreciating it more since passing functions as arguments in Rust seems a bit too clunky.</p>
+<p>I have also written Typescript and React recently and I was shocked at the throughput that the two technologies together provide. Having come from an Android + Java recent trauma, I can honestly say I absolutely love React Native.</p>
+<p>And these recent events made me appreciate that the mix of features that you want from a language are those that satisfy the most important job of an engineer: productivity. Of course productivity can be a function of domain, and therefore trying to use Rust for the frontent is not as productive as using React Native, just as choosing Typescript for Monte Carlo simulations is not gonna cut it.</p>
+<p>Eventually, even memory safety is a <strong>productivity feature</strong> since it removes the time used to search for bugs. Strong typing, sum types, exhaustive pattern matching are all working together in making the developer build more, better stuff, with less cognitive overload, with a lot of help from the compiler, with less code due to expressivity and and the open source community.</p>
+<p>I read recently <a href="http://www.paulgraham.com/avg.html">Paul Graham&rsquo;s</a> preference on choosing a hard language with a lot of features for several reasons: top two being the quality of people the language attracts, and the output the language enables. As an example, he attributes that a lot of the fast time-to-market of their new features were due to Lisp&rsquo;s macros.</p>
+<p>This made me think of Rust&rsquo;s macros, how useful they are as a construct, that they allow you to write code that writes code. It&rsquo;s not that Rust is amazing because of this feature, but it&rsquo;s amazing because it can substitute missing features. It would be great if it didn&rsquo;t need it, but this is the second best. Heck, even OCaml has it in the form of ppx.</p>
+<p>Some examples of how Rust looks like when macros are expanded.</p>
+<ol>
+<li><code>main()</code></li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rs" data-lang="rs"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {}
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rs" data-lang="rs"><span style="color:#75715e">#![feature(prelude_import)]</span>
+<span style="color:#75715e">#[prelude_import]</span>
+<span style="color:#66d9ef">use</span> std::prelude::v1::<span style="color:#f92672">*</span>;
+<span style="color:#75715e">#[macro_use]</span>
+<span style="color:#66d9ef">extern</span> <span style="color:#66d9ef">crate</span> std;
+<span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {}
+</code></pre></div><ol start="2">
+<li><code>vec![]</code></li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rs" data-lang="rs"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {
+    <span style="color:#66d9ef">let</span> x <span style="color:#f92672">=</span> vec<span style="color:#f92672">!</span>[];
+}
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rs" data-lang="rs"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {
+    <span style="color:#66d9ef">let</span> x <span style="color:#f92672">=</span> ::alloc::vec::Vec::new();
+}
+</code></pre></div><ol start="3">
+<li><code>vec![1, 2, 3]</code></li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rs" data-lang="rs"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {
+    <span style="color:#66d9ef">let</span> x <span style="color:#f92672">=</span> vec<span style="color:#f92672">!</span>[<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>];
+}
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rs" data-lang="rs"><span style="color:#75715e">#![feature(prelude_import)]</span>
+<span style="color:#75715e">#[prelude_import]</span>
+<span style="color:#66d9ef">use</span> std::prelude::v1::<span style="color:#f92672">*</span>;
+<span style="color:#75715e">#[macro_use]</span>
+<span style="color:#66d9ef">extern</span> <span style="color:#66d9ef">crate</span> std;
+<span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {
+    <span style="color:#66d9ef">let</span> x <span style="color:#f92672">=</span> <span style="color:#f92672">&lt;</span>[_]<span style="color:#f92672">&gt;</span>::into_vec(<span style="color:#66d9ef">box</span> [<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>]);
+}
+</code></pre></div><p>Notes: Wtf is <code>&lt;[_]&gt;</code>.</p>
+<ol start="4">
+<li><code>#[derive(Debug)]</code></li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rs" data-lang="rs"><span style="color:#75715e">#[derive(Debug)]</span>
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Point</span> {
+    x: <span style="color:#66d9ef">i32</span>,
+    y: <span style="color:#66d9ef">i32</span>,
+    name: String,
+}
+<span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {}
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rs" data-lang="rs"><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Point</span> {
+    x: <span style="color:#66d9ef">i32</span>,
+    y: <span style="color:#66d9ef">i32</span>,
+    name: String,
+}
+<span style="color:#75715e">#[automatically_derived]</span>
+<span style="color:#75715e">#[allow(unused_qualifications)]</span>
+<span style="color:#66d9ef">impl</span> ::core::fmt::Debug <span style="color:#66d9ef">for</span> Point {
+    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">fmt</span>(<span style="color:#f92672">&amp;</span>self, f: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">mut</span> ::core::fmt::Formatter) -&gt; ::core::fmt::Result {
+        <span style="color:#66d9ef">match</span> <span style="color:#f92672">*</span>self {
+            Point {
+                x: <span style="color:#a6e22e">ref</span> __self_0_0,
+                y: <span style="color:#a6e22e">ref</span> __self_0_1,
+                name: <span style="color:#a6e22e">ref</span> __self_0_2,
+            } <span style="color:#f92672">=&gt;</span> {
+                <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> debug_trait_builder <span style="color:#f92672">=</span> f.debug_struct(<span style="color:#e6db74">&#34;Point&#34;</span>);
+                <span style="color:#66d9ef">let</span> _ <span style="color:#f92672">=</span> debug_trait_builder.field(<span style="color:#e6db74">&#34;x&#34;</span>, <span style="color:#f92672">&amp;&amp;</span>(<span style="color:#f92672">*</span>__self_0_0));
+                <span style="color:#66d9ef">let</span> _ <span style="color:#f92672">=</span> debug_trait_builder.field(<span style="color:#e6db74">&#34;y&#34;</span>, <span style="color:#f92672">&amp;&amp;</span>(<span style="color:#f92672">*</span>__self_0_1));
+                <span style="color:#66d9ef">let</span> _ <span style="color:#f92672">=</span> debug_trait_builder.field(<span style="color:#e6db74">&#34;name&#34;</span>, <span style="color:#f92672">&amp;&amp;</span>(<span style="color:#f92672">*</span>__self_0_2));
+                debug_trait_builder.finish()
+            }
+        }
+    }
+}
+<span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {}
+</code></pre></div><ol start="5">
+<li><code>#[derive(Clone)]</code></li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rs" data-lang="rs"><span style="color:#75715e">#[derive(Clone)]</span>
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Point</span> {
+    x: <span style="color:#66d9ef">i32</span>,
+    y: <span style="color:#66d9ef">i32</span>,
+    name: String,
+}
+<span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {}
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rs" data-lang="rs"><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Point</span> {
+    x: <span style="color:#66d9ef">i32</span>,
+    y: <span style="color:#66d9ef">i32</span>,
+    name: String,
+}
+<span style="color:#75715e">#[automatically_derived]</span>
+<span style="color:#75715e">#[allow(unused_qualifications)]</span>
+<span style="color:#66d9ef">impl</span> ::core::clone::Clone <span style="color:#66d9ef">for</span> Point {
+    <span style="color:#75715e">#[inline]</span>
+    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">clone</span>(<span style="color:#f92672">&amp;</span>self) -&gt; <span style="color:#a6e22e">Point</span> {
+        <span style="color:#66d9ef">match</span> <span style="color:#f92672">*</span>self {
+            Point {
+                x: <span style="color:#a6e22e">ref</span> __self_0_0,
+                y: <span style="color:#a6e22e">ref</span> __self_0_1,
+                name: <span style="color:#a6e22e">ref</span> __self_0_2,
+            } <span style="color:#f92672">=&gt;</span> Point {
+                x: ::core::clone::Clone::clone(<span style="color:#f92672">&amp;</span>(<span style="color:#f92672">*</span>__self_0_0)),
+                y: ::core::clone::Clone::clone(<span style="color:#f92672">&amp;</span>(<span style="color:#f92672">*</span>__self_0_1)),
+                name: ::core::clone::Clone::clone(<span style="color:#f92672">&amp;</span>(<span style="color:#f92672">*</span>__self_0_2)),
+            },
+        }
+    }
+}
+<span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {}
+</code></pre></div><ol start="6">
+<li><code>println!()</code></li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rs" data-lang="rs"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {
+    println<span style="color:#f92672">!</span>(<span style="color:#e6db74">&#34;Hello world&#34;</span>);
+}
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rs" data-lang="rs"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {
+    {
+        ::std::io::_print(::core::fmt::Arguments::new_v1(
+            <span style="color:#f92672">&amp;</span>[<span style="color:#e6db74">&#34;Hello world\n&#34;</span>],
+            <span style="color:#f92672">&amp;</span><span style="color:#66d9ef">match</span> () {
+                () <span style="color:#f92672">=&gt;</span> [],
+            },
+        ));
+    };
+}
+
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rs" data-lang="rs"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {
+    println<span style="color:#f92672">!</span>(<span style="color:#e6db74">&#34;Hello {}&#34;</span>, <span style="color:#e6db74">&#34;world&#34;</span>);
+}
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rs" data-lang="rs"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {
+    {
+        ::std::io::_print(::core::fmt::Arguments::new_v1(
+            <span style="color:#f92672">&amp;</span>[<span style="color:#e6db74">&#34;Hello &#34;</span>, <span style="color:#e6db74">&#34;\n&#34;</span>],
+            <span style="color:#f92672">&amp;</span><span style="color:#66d9ef">match</span> (<span style="color:#f92672">&amp;</span><span style="color:#e6db74">&#34;world&#34;</span>,) {
+                (arg0,) <span style="color:#f92672">=&gt;</span> [::core::fmt::ArgumentV1::new(
+                    arg0,
+                    ::core::fmt::Display::fmt,
+                )],
+            },
+        ));
+    };
+}
+</code></pre></div><ol start="7">
+<li><code>info!()</code></li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rs" data-lang="rs"><span style="color:#66d9ef">use</span> log::info;
+<span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {
+    {
+        <span style="color:#66d9ef">let</span> lvl <span style="color:#f92672">=</span> ::log::Level::Info;
+        <span style="color:#66d9ef">if</span> lvl <span style="color:#f92672">&lt;=</span> ::log::STATIC_MAX_LEVEL <span style="color:#f92672">&amp;&amp;</span> lvl <span style="color:#f92672">&lt;=</span> ::log::max_level() {
+            <span style="color:#66d9ef">let</span> _ <span style="color:#f92672">=</span> ::core::fmt::Arguments::new_v1(
+                <span style="color:#f92672">&amp;</span>[<span style="color:#e6db74">&#34;Hello&#34;</span>],
+                <span style="color:#f92672">&amp;</span><span style="color:#66d9ef">match</span> () {
+                    () <span style="color:#f92672">=&gt;</span> [],
+                },
+            );
+            ::log::__private_api_log_lit(
+                <span style="color:#e6db74">&#34;Hello&#34;</span>,
+                lvl,
+                <span style="color:#f92672">&amp;</span>(<span style="color:#e6db74">&#34;syntactic_sugar&#34;</span>, <span style="color:#e6db74">&#34;syntactic_sugar&#34;</span>, <span style="color:#e6db74">&#34;src/main.rs&#34;</span>, <span style="color:#ae81ff">3</span><span style="color:#66d9ef">u32</span>),
+            );
+        }
+    };
+}
+</code></pre></div><p>This was a rabbit hole. Wanted to see what <code>__private_api_log_lit</code> does and it seems it&rsquo;s implemented by <code>log</code> which calls a static global object <code>LOGGER</code> that is defined in <code>log</code>. This interface allows you to set your global logger using the interface: <code>log::set_logger</code>and it needs to implement the <code>Log</code> trait.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rs" data-lang="rs"><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">trait</span> Log: Sync <span style="color:#f92672">+</span> Send {
+    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">enabled</span>(<span style="color:#f92672">&amp;</span>self, metadata: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">Metadata</span>) -&gt; <span style="color:#66d9ef">bool</span>;
+    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">log</span>(<span style="color:#f92672">&amp;</span>self, record: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">log</span>::Record);
+    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">flush</span>(<span style="color:#f92672">&amp;</span>self);
+}
+</code></pre></div><ol start="8">
+<li><code>panic!()</code></li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rs" data-lang="rs"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {
+    panic<span style="color:#f92672">!</span>(<span style="color:#e6db74">&#34;WTF&#34;</span>);
+}
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rs" data-lang="rs"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {
+    {
+        ::std::rt::begin_panic(<span style="color:#e6db74">&#34;WTF&#34;</span>)
+    };
+}
+</code></pre></div><p>Also a rabbit hole. It calls either <code>__rust_start_panic</code> which is a <code>C</code> binding, or <code>intrinsics::abort()</code></p>
+<p>Also, the signature of <code>abort</code> is weird, returning a bang, which means that it never returns.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rs" data-lang="rs"><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">abort</span>() -&gt; <span style="color:#f92672">!</span>;
+</code></pre></div><p>Also, it&rsquo;s imported like <code>extern &quot;rust-intrinsic&quot;</code>.</p>
+<pre><code>https://doc.rust-lang.org/beta/unstable-book/language-features/intrinsics.html
+</code></pre></div>
+  <footer class="post-footer">
+    
+  </footer>
+</article>
+
+
+    </main><footer class="footer">
+    <span>&copy; 2021 <a href="https://y2kappa.github.io/blog/"></a></span>
+    <span>&middot;</span>
+    <span>Powered by <a href="https://gohugo.io/" rel="noopener" target="_blank">Hugo️️</a>️</span>
+    <span>&middot;</span>
+    <span>Theme️ <a href="https://github.com/adityatelange/hugo-PaperMod" rel="noopener"
+            target="_blank">PaperMod</a></span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top">
+    <button class="top-link" id="top-link" type="button">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6">
+            <path d="M12 6H0l6-6z" /></svg>
+    </button>
+</a>
+
+
+<script src="https://y2kappa.github.io/blog/js/highlight.min.min.e7afc2928c0925d65c4732dfebe147014d91299a98e819e4b42f25c4fa68e91c.js" integrity="sha256-56/CkowJJdZcRzLf6&#43;FHAU2RKZqY6BnktC8lxPpo6Rw="></script>
+
+<script>
+    window.onload = function () {
+        if (localStorage.getItem("menu-scroll-position")) {
+            document.getElementById('menu').scrollLeft = localStorage.getItem("menu-scroll-position");
+        }
+    }
+    
+    hljs.initHighlightingOnLoad();
+    
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+
+            document.querySelector(this.getAttribute("href")).scrollIntoView({
+                behavior: "smooth"
+            });
+        });
+    });
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+    function menu_on_scroll() {
+        localStorage.setItem("menu-scroll-position", document.getElementById('menu').scrollLeft);
+    }
+</script>
+</body>
+
+</html>
