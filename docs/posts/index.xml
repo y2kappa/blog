@@ -6,10 +6,20 @@
     <description>Recent content in Posts on </description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 28 Mar 2021 14:10:56 +0100</lastBuildDate>
+    <lastBuildDate>Thu, 01 Apr 2021 23:25:11 +0100</lastBuildDate>
     
 	<atom:link href="https://y2kappa.github.io/blog/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Higher Level Languages</title>
+      <link>https://y2kappa.github.io/blog/posts/higher-level-languages/</link>
+      <pubDate>Thu, 01 Apr 2021 23:25:11 +0100</pubDate>
+      
+      <guid>https://y2kappa.github.io/blog/posts/higher-level-languages/</guid>
+      <description>One way of looking at programming languages or languages, in general, is as translation vehicles from higher level concepts into lower level representations. For example, English converts a higher level concept, i.e. an idea, a thought, into a lower level representation, i.e. soundwaves.
+Product managers write (high level) specs, that is what they expect the product to be. Engineers, process that input, and compile it along with the rest of their understanding of the subsystems and produce an even lower representation, i.</description>
+    </item>
     
     <item>
       <title>Piping in Rust</title>
