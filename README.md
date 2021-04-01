@@ -14,6 +14,8 @@ Hosted at [https://y2kappa.github.io/blog](https://y2kappa.github.io/blog).
 - [ ] get custom domain and link it
 - [ ] 30 days daily challenges
 - [ ] newsletter box - get a `post` endpoint via aws lambda & dynamodb
+- https://ersin-akinci.medium.com/so-youre-pitching-me-on-a-software-engineering-position-37a862019ea7
+- https://github.com/MayorMonty
 
 ## Posts ideas:
 - [ ] What is architecture / When should you rewrite your code? How important is it to do it even if deliverables are pressing.
