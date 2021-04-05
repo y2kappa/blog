@@ -28,9 +28,6 @@ Hosted at [https://y2kappa.github.io/blog](https://y2kappa.github.io/blog).
     - https://stackoverflow.com/questions/54582761/how-to-check-if-a-function-has-been-called-in-rust
     - https://users.rust-lang.org/t/rust-how-to-check-whether-a-function-being-called-or-not/25045/13
 - [ ] Proc macro that checks code coverage
-- [ ] Demonstrating `cargo expand`
-    - [ ] syntactic sugar in rust
-    - [ ] templates in Rust
 - [ ] trying to learn C++ posts
 - [ ] trying to learn Haskell posts
 - [ ] trying to learn java posts
@@ -49,3 +46,11 @@ Hosted at [https://y2kappa.github.io/blog](https://y2kappa.github.io/blog).
 - [ ] article about deleting code
 - [ ] cargo depcheck like npm with warnings and clippy and github action
 - [ ] cargo binary to create a template rust html
+
+## Done
+- [x] Rust: matches! macro
+- [x] Demonstrating `cargo expand`
+    - [x] syntactic sugar in rust
+    - [x] templates in Rust
+- [ ] Interesting pull requests:
+    - [x] https://github.com/ocaml/ocaml/pull/1940/files?file-filters%5B%5D=.etex&file-filters%5B%5D=.ml&file-filters%5B%5D=.mli&file-filters%5B%5D=.reference&file-filters%5B%5D=No+extension
