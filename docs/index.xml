@@ -6,10 +6,19 @@
     <description>Recent content on </description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 01 Apr 2021 23:25:11 +0100</lastBuildDate>
+    <lastBuildDate>Mon, 05 Apr 2021 18:22:28 +0100</lastBuildDate>
     
 	<atom:link href="https://y2kappa.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>(Non) Functional Rust, Option and Patterns</title>
+      <link>https://y2kappa.github.io/blog/posts/reimplementing-option-and-matches/</link>
+      <pubDate>Mon, 05 Apr 2021 18:22:28 +0100</pubDate>
+      
+      <guid>https://y2kappa.github.io/blog/posts/reimplementing-option-and-matches/</guid>
+      <description>Patterns of writing code, functional or not, seem to appl</description>
+    </item>
     
     <item>
       <title>Higher Level Languages</title>

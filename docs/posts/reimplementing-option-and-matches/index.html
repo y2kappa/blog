@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<title>(Non) Functional Rust, Option and Patterns - </title>
+
+<meta name="description" content="Patterns of writing code, functional or not, seem to appl">
+<meta name="author" content="">
+<link rel="canonical" href="https://y2kappa.github.io/blog/posts/reimplementing-option-and-matches/" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="https://y2kappa.github.io/blog/css/stylesheet.min.ed498a6253e15a7ac964956d9dcc36e9d8247e061b7b0c696e02cf8ba0d54f34.css" integrity="sha256-7UmKYlPhWnrJZJVtncw26dgkfgYbewxpbgLPi6DVTzQ=" rel="preload stylesheet"
+    as="style">
+
+
+<link rel="apple-touch-icon" href="https://y2kappa.github.io/blog/apple-touch-icon.png">
+<link rel="icon" href="https://y2kappa.github.io/blog/favicon.ico">
+<meta name="generator" content="Hugo 0.70.0" />
+
+
+</head>
+
+<body
+    class="single dark "
+    id="top">
+<header class="header">
+    <nav class="nav">
+        <p class="logo"><a href="https://y2kappa.github.io/blog/"></a></p>
+    </nav>
+</header>
+    <main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <h1 class="post-title">
+      (Non) Functional Rust, Option and Patterns
+    </h1>
+    
+    <div class="post-meta">
+      <time>April 5, 2021</time>
+      
+      
+    </div>
+    
+  </header>
+  
+  
+  <div class="post-content"><p>I ramdomly stumbled upon this <a href="https://github.com/ocaml/ocaml/pull/1940/">Pull Request</a> where the author is adding <code>Option</code> to the OCaml standard library. Pretty confused why this only happened in 2018, but maybe I am reading this wrongly.</p>
+<p>I in this PR you can see how OCaml&rsquo;s expressivity shines. Here&rsquo;s a snippet of the implementation (more or less):</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-OCaml" data-lang="OCaml"><span style="color:#66d9ef">type</span> <span style="color:#66d9ef">&#39;</span>a t <span style="color:#f92672">=</span> <span style="color:#66d9ef">&#39;</span>a option <span style="color:#f92672">=</span> <span style="color:#a6e22e">None</span> <span style="color:#f92672">|</span> <span style="color:#a6e22e">Some</span> <span style="color:#66d9ef">of</span> <span style="color:#66d9ef">&#39;</span>a
+
+<span style="color:#66d9ef">let</span> none <span style="color:#f92672">=</span> <span style="color:#a6e22e">None</span>
+<span style="color:#66d9ef">let</span> some v <span style="color:#f92672">=</span> <span style="color:#a6e22e">Some</span> v
+<span style="color:#66d9ef">let</span> <span style="color:#66d9ef">value</span> o <span style="color:#f92672">~</span>default <span style="color:#f92672">=</span> <span style="color:#66d9ef">match</span> o <span style="color:#66d9ef">with</span> <span style="color:#a6e22e">Some</span> v <span style="color:#f92672">-&gt;</span> v <span style="color:#f92672">|</span> <span style="color:#a6e22e">None</span> <span style="color:#f92672">-&gt;</span> default
+<span style="color:#66d9ef">let</span> get <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">Some</span> v <span style="color:#f92672">-&gt;</span> v <span style="color:#f92672">|</span> <span style="color:#a6e22e">None</span> <span style="color:#f92672">-&gt;</span> invalid_arg <span style="color:#e6db74">&#34;option is None&#34;</span>
+<span style="color:#66d9ef">let</span> bind o f <span style="color:#f92672">=</span> <span style="color:#66d9ef">match</span> o <span style="color:#66d9ef">with</span> <span style="color:#a6e22e">None</span> <span style="color:#f92672">-&gt;</span> <span style="color:#a6e22e">None</span> <span style="color:#f92672">|</span> <span style="color:#a6e22e">Some</span> v <span style="color:#f92672">-&gt;</span> f v
+<span style="color:#66d9ef">let</span> join <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">Some</span> <span style="color:#f92672">(</span><span style="color:#a6e22e">Some</span> <span style="color:#f92672">_</span> <span style="color:#66d9ef">as</span> o<span style="color:#f92672">)</span> <span style="color:#f92672">-&gt;</span> o <span style="color:#f92672">|</span> <span style="color:#f92672">_</span> <span style="color:#f92672">-&gt;</span> <span style="color:#a6e22e">None</span>
+<span style="color:#66d9ef">let</span> map f o <span style="color:#f92672">=</span> <span style="color:#66d9ef">match</span> o <span style="color:#66d9ef">with</span> <span style="color:#a6e22e">None</span> <span style="color:#f92672">-&gt;</span> <span style="color:#a6e22e">None</span> <span style="color:#f92672">|</span> <span style="color:#a6e22e">Some</span> v <span style="color:#f92672">-&gt;</span> <span style="color:#a6e22e">Some</span> <span style="color:#f92672">(</span>f v<span style="color:#f92672">)</span>
+<span style="color:#66d9ef">let</span> fold <span style="color:#f92672">~</span>none <span style="color:#f92672">~</span>some <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">Some</span> v <span style="color:#f92672">-&gt;</span> some v <span style="color:#f92672">|</span> <span style="color:#a6e22e">None</span> <span style="color:#f92672">-&gt;</span> none
+<span style="color:#66d9ef">let</span> iter f <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">Some</span> v <span style="color:#f92672">-&gt;</span> f v <span style="color:#f92672">|</span> <span style="color:#a6e22e">None</span> <span style="color:#f92672">-&gt;</span> ()
+<span style="color:#66d9ef">let</span> is_none <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">None</span> <span style="color:#f92672">-&gt;</span> true <span style="color:#f92672">|</span> <span style="color:#a6e22e">Some</span> <span style="color:#f92672">_</span> <span style="color:#f92672">-&gt;</span> false
+<span style="color:#66d9ef">let</span> is_some <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">None</span> <span style="color:#f92672">-&gt;</span> false <span style="color:#f92672">|</span> <span style="color:#a6e22e">Some</span> <span style="color:#f92672">_</span> <span style="color:#f92672">-&gt;</span> true
+<span style="color:#66d9ef">let</span> to_result <span style="color:#f92672">~</span>none <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">None</span> <span style="color:#f92672">-&gt;</span> <span style="color:#a6e22e">Error</span> none <span style="color:#f92672">|</span> <span style="color:#a6e22e">Some</span> v <span style="color:#f92672">-&gt;</span> <span style="color:#a6e22e">Ok</span> v
+
+</code></pre></div><p>I thought about writing it in Rust to see how it would look like, what can I learn along the way and how much more verbose it gets.</p>
+<h2 id="type-definition">Type definition</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-OCaml" data-lang="OCaml"><span style="color:#66d9ef">type</span> <span style="color:#66d9ef">&#39;</span>a t <span style="color:#f92672">=</span> <span style="color:#66d9ef">&#39;</span>a option <span style="color:#f92672">=</span> <span style="color:#a6e22e">None</span> <span style="color:#f92672">|</span> <span style="color:#a6e22e">Some</span> <span style="color:#66d9ef">of</span> <span style="color:#66d9ef">&#39;</span>a
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rs" data-lang="rs"><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">enum</span> <span style="color:#a6e22e">Maybe</span><span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> {
+    Just(T),
+    Nothing,
+}
+</code></pre></div><p>Not too bad, very close.</p>
+<h2 id="constructors">Constructors</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-OCaml" data-lang="OCaml"><span style="color:#66d9ef">let</span> none <span style="color:#f92672">=</span> <span style="color:#a6e22e">None</span>
+<span style="color:#66d9ef">let</span> some v <span style="color:#f92672">=</span> <span style="color:#a6e22e">Some</span> v
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Rust" data-lang="Rust"><span style="color:#66d9ef">impl</span><span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> Maybe<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> {
+    <span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">nothing</span>() -&gt; <span style="color:#a6e22e">Self</span> {
+        Self::Nothing
+    }
+
+    <span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">just</span>(value: <span style="color:#a6e22e">T</span>) -&gt; <span style="color:#a6e22e">Self</span> {
+        Self::Just(value)
+    }
+}
+</code></pre></div><p>Ok, somewhat different, but not too bad. A few reasons:</p>
+<ul>
+<li>You could move <code>nothing</code> and <code>just</code> outside of the <code>impl</code> block but your would not gain too much.</li>
+<li>The main difference is really due to OCaml not having to type annotate as long as the compiler can figure it out. In Rust the functions and their arguments just <strong>have</strong> to be annotated with the return types. This is what adds the extra verbosity.</li>
+<li>Misc: OCaml has the <code>.mli</code> file, Rust doesn&rsquo;t. Any <code>.ml</code> file is already a module, just like rust, so you get the same things implicitly. One difference is that in OCaml the <code>type t</code> parametrizes the entire module. You can&rsquo;t get the same in Rust.</li>
+</ul>
+<h2 id="predicates">Predicates</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-OCaml" data-lang="OCaml"><span style="color:#66d9ef">let</span> is_none <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">None</span> <span style="color:#f92672">-&gt;</span> true <span style="color:#f92672">|</span> <span style="color:#a6e22e">Some</span> <span style="color:#f92672">_</span> <span style="color:#f92672">-&gt;</span> false
+<span style="color:#66d9ef">let</span> is_some <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">None</span> <span style="color:#f92672">-&gt;</span> false <span style="color:#f92672">|</span> <span style="color:#a6e22e">Some</span> <span style="color:#f92672">_</span> <span style="color:#f92672">-&gt;</span> true
+</code></pre></div><p>Rust attempt 1:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rs" data-lang="rs"><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">is_none</span>(self) -&gt; <span style="color:#66d9ef">bool</span> {
+    <span style="color:#66d9ef">match</span> self {
+        Self::Nothing <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">true</span>,
+        _ <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">false</span>,
+    }
+}
+<span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">is_some</span>(self) -&gt; <span style="color:#66d9ef">bool</span> {
+    <span style="color:#66d9ef">match</span> self {
+        Self::Something(_) <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">true</span>,
+        _ <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">false</span>,
+    }
+}
+</code></pre></div><p>Both readable, difference in whitespace really.</p>
+<p>Rust attempt 2:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rs" data-lang="rs"><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">is_none</span>(self) -&gt; <span style="color:#66d9ef">bool</span> {
+    matches<span style="color:#f92672">!</span>(self, Maybe::Nothing)
+}
+
+<span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">is_some</span>(self) -&gt; <span style="color:#66d9ef">bool</span> {
+    matches<span style="color:#f92672">!</span>(self, Maybe::Just(_))
+}
+</code></pre></div><p>Damn. That&rsquo;s much better, although it&rsquo;s a semi<code>hack</code>. More about it at the end.</p>
+<h2 id="map-and-bind">Map and Bind</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-OCaml" data-lang="OCaml"><span style="color:#66d9ef">let</span> map f o <span style="color:#f92672">=</span> <span style="color:#66d9ef">match</span> o <span style="color:#66d9ef">with</span> <span style="color:#a6e22e">None</span> <span style="color:#f92672">-&gt;</span> <span style="color:#a6e22e">None</span> <span style="color:#f92672">|</span> <span style="color:#a6e22e">Some</span> v <span style="color:#f92672">-&gt;</span> <span style="color:#a6e22e">Some</span> <span style="color:#f92672">(</span>f v<span style="color:#f92672">)</span>
+<span style="color:#66d9ef">let</span> bind o f <span style="color:#f92672">=</span> <span style="color:#66d9ef">match</span> o <span style="color:#66d9ef">with</span> <span style="color:#a6e22e">None</span> <span style="color:#f92672">-&gt;</span> <span style="color:#a6e22e">None</span> <span style="color:#f92672">|</span> <span style="color:#a6e22e">Some</span> v <span style="color:#f92672">-&gt;</span> f v
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rs" data-lang="rs"><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">map</span><span style="color:#f92672">&lt;</span>U, F: FnOnce(T) -&gt; <span style="color:#a6e22e">U</span><span style="color:#f92672">&gt;</span>(self, f: <span style="color:#a6e22e">F</span>) -&gt; <span style="color:#a6e22e">Maybe</span><span style="color:#f92672">&lt;</span>U<span style="color:#f92672">&gt;</span> {
+    <span style="color:#66d9ef">match</span> self {
+        Self::Just(something) <span style="color:#f92672">=&gt;</span> Maybe::Just(f(something)),
+        Self::Nothing <span style="color:#f92672">=&gt;</span> Maybe::<span style="color:#f92672">&lt;</span>U<span style="color:#f92672">&gt;</span>::Nothing,
+    }
+}
+
+<span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">bind</span><span style="color:#f92672">&lt;</span>U, F: FnOnce(T) -&gt; <span style="color:#a6e22e">Maybe</span><span style="color:#f92672">&lt;</span>U<span style="color:#f92672">&gt;&gt;</span>(self, f: <span style="color:#a6e22e">F</span>) -&gt; <span style="color:#a6e22e">Maybe</span><span style="color:#f92672">&lt;</span>U<span style="color:#f92672">&gt;</span> {
+    <span style="color:#66d9ef">match</span> self {
+        Self::Just(something) <span style="color:#f92672">=&gt;</span> f(something),
+        Self::Nothing <span style="color:#f92672">=&gt;</span> Maybe::<span style="color:#f92672">&lt;</span>U<span style="color:#f92672">&gt;</span>::Nothing,
+    }
+}
+</code></pre></div><p>At first sight, not that bad, just whitespace. However, looking at the implementation you can actually see that the <code>map</code> and <code>bind</code> are templated by the function type. You can&rsquo;t just define:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rs" data-lang="rs"><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">map</span><span style="color:#f92672">&lt;</span>U<span style="color:#f92672">&gt;</span>(self, f: FnOnce(T) -&gt; <span style="color:#a6e22e">U</span>) -&gt; <span style="color:#a6e22e">Maybe</span><span style="color:#f92672">&lt;</span>U<span style="color:#f92672">&gt;</span>;
+</code></pre></div><p>Because the compiler yells at you:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rs" data-lang="rs"><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">map</span><span style="color:#f92672">&lt;</span>U<span style="color:#f92672">&gt;</span>(self, f: FnOnce(T) -&gt; <span style="color:#a6e22e">U</span>) -&gt; <span style="color:#a6e22e">Maybe</span><span style="color:#f92672">&lt;</span>U<span style="color:#f92672">&gt;</span> {
+                    <span style="color:#f92672">^</span> doesn<span style="color:#a6e22e">&#39;t</span> have a size known at compile<span style="color:#f92672">-</span>time
+</code></pre></div><p>You can try all the things the compiler messages tell you to. God bless its sould for the struggle, but the rabbit hole just gets deeper. This really illustrates how difficult it is to pass functions as parameters in Rust and how fairly simple idiomatic functional style starts breaking due to the lifetimes and borrowing rules, etc.</p>
+<p>It&rsquo;s easy it you make it a template, it resolves everything at compile time. I am still not 100% why this works.</p>
+<p>From all of this, and some previous experience, a few lessons that I learned:</p>
+<ul>
+<li>Rust is not functional (this has been said before)</li>
+<li>Lifetimes and borrowing are a blessing and a curse. A unique feature, by all means, but not a cure for everything</li>
+<li>Rust doesn&rsquo;t work for everything. I don&rsquo;t want to struggle to compile something as easy as passing a function as parameter. The struggle is worth it if you really need all the benefits that Rust offers compared to, say, OCaml. And yes, there are loads of benefits, especially regarding the availability of open souces libraries, not even going into domain specifics where functional is better than imperative. It may be worth it, although I would prefer if I can just write my functions like: <code>let map o f = .. </code> and that&rsquo;s it.</li>
+</ul>
+<p>In Rust <code>bind</code> is called <code>and_then</code>.</p>
+<p>A test:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rs" data-lang="rs"><span style="color:#75715e">#[test]</span>
+<span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">test_bind</span>() {
+    <span style="color:#66d9ef">use</span> Maybe::<span style="color:#f92672">*</span>;
+
+    <span style="color:#66d9ef">let</span> two_multiplied_by <span style="color:#f92672">=</span> <span style="color:#f92672">|</span>x: <span style="color:#66d9ef">i32</span><span style="color:#f92672">|</span> x <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span>;
+    <span style="color:#66d9ef">let</span> two_divided_by <span style="color:#f92672">=</span> <span style="color:#f92672">|</span>x<span style="color:#f92672">|</span> <span style="color:#66d9ef">if</span> x <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> { Nothing } <span style="color:#66d9ef">else</span> { Just(<span style="color:#ae81ff">2</span> <span style="color:#f92672">/</span> x) };
+    <span style="color:#66d9ef">let</span> two_added_to <span style="color:#f92672">=</span> <span style="color:#f92672">|</span>x: <span style="color:#66d9ef">i32</span><span style="color:#f92672">|</span> x <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span>;
+
+    <span style="color:#66d9ef">let</span> res <span style="color:#f92672">=</span> Just(<span style="color:#ae81ff">0</span>)
+        .bind(two_divided_by)
+        .bind(two_divided_by)
+        .bind(two_divided_by)
+        .map(two_multiplied_by)
+        .map(two_multiplied_by)
+        .map(two_added_to)
+        .map(two_multiplied_by)
+        .map(two_added_to);
+
+    assert_eq<span style="color:#f92672">!</span>(res, Nothing);
+}
+</code></pre></div><h2 id="closing-thoughts">Closing thoughts</h2>
+<p>It&rsquo;s pretty cool to see some abstractions (re)discovered across time, languages and problems and how they are (similarly) implemented in different languages. As a proof it&rsquo;s just the fact that both Rust and OCaml are using <code>map</code>, <code>bind</code>/<code>and_then</code>, that <code>matches!</code> is a thing, that the Rust <code>?</code> operator is also a thing and people actually use them heavily.</p>
+<p>More interestingly, it points to the fact that there are some models/patterns of writing code are universal, that are somewhat domain-agnostic and that if you learn them you will define better APIs, write more extensible code and you bank on the fact that these lessons have already been learned before.</p>
+<p>Other two examples are <code>Option</code> and <code>Result</code>. Sure, both examples of the same thing, sum types, but the reality is that among all sum types, these two are used the most. I really miss them in C++/Java (old java) where the ways to indicate the something fails is through return codes, or exceptions. Just the fact that you can&rsquo;t indicate that something can succeed or fail but through a whole new mechanism shows how a language can get in your way.</p>
+<p>Keep coding!</p>
+</div>
+  <footer class="post-footer">
+    
+  </footer>
+</article>
+
+
+    </main><footer class="footer">
+    <span>&copy; 2021 <a href="https://y2kappa.github.io/blog/"></a></span>
+    <span>&middot;</span>
+    <span>Powered by <a href="https://gohugo.io/" rel="noopener" target="_blank">Hugo️️</a>️</span>
+    <span>&middot;</span>
+    <span>Theme️ <a href="https://github.com/adityatelange/hugo-PaperMod" rel="noopener"
+            target="_blank">PaperMod</a></span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top">
+    <button class="top-link" id="top-link" type="button">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6">
+            <path d="M12 6H0l6-6z" /></svg>
+    </button>
+</a>
+
+
+<script src="https://y2kappa.github.io/blog/js/highlight.min.min.e7afc2928c0925d65c4732dfebe147014d91299a98e819e4b42f25c4fa68e91c.js" integrity="sha256-56/CkowJJdZcRzLf6&#43;FHAU2RKZqY6BnktC8lxPpo6Rw="></script>
+
+<script>
+    window.onload = function () {
+        if (localStorage.getItem("menu-scroll-position")) {
+            document.getElementById('menu').scrollLeft = localStorage.getItem("menu-scroll-position");
+        }
+    }
+    
+    hljs.initHighlightingOnLoad();
+    
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+
+            document.querySelector(this.getAttribute("href")).scrollIntoView({
+                behavior: "smooth"
+            });
+        });
+    });
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+    function menu_on_scroll() {
+        localStorage.setItem("menu-scroll-position", document.getElementById('menu').scrollLeft);
+    }
+</script>
+</body>
+
+</html>
