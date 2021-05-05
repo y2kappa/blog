@@ -140,9 +140,20 @@ pub fn map<U>(self, f: FnOnce(T) -> U) -> Maybe<U> {
                     ^ doesn't have a size known at compile-time
 ```
 
-You can try all the things the compiler messages tell you to. God bless its sould for the struggle, but the rabbit hole just gets deeper. This really illustrates how difficult it is to pass functions as parameters in Rust and how fairly simple idiomatic functional style starts breaking due to the lifetimes and borrowing rules, etc.
+And this is because `FnOnce` is not a type, but a trait. It's not so intuitive, but after some research it's pretty obvious. You have to change into:
 
-It's easy it you make it a template, it resolves everything at compile time. I am still not 100% why this works.
+```rs
+pub fn map<U>(self, f: impl FnOnce(T) -> U) -> Maybe<U>;
+```
+
+I believe this and the first option are **very** similar, with subtle differences, if not the same. They are both resolved at compile time. Another option would be:
+
+```rs
+pub fn map<U>(self, f: dyn FnOnce(T) -> U) -> Maybe<U>;
+```
+Which will turn this into run time dynamic dispatch.
+
+Quite a few nuances to traits and to passing functions as parameters in Rust. You can optimize for running time, compilation size, but this comes at a cost of complexity.
 
 From all of this, and some previous experience, a few lessons that I learned:
 - Rust is not functional (this has been said before)
